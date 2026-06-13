@@ -4,11 +4,8 @@ icon: fas fa-info-circle
 order: 4
 ---
 
-Learning how to CTF, with a focus on pwn.
+Binary exploitation player since 2021. Somewhere along the way I got interested in a different kind of challenge: what does it actually look like to work with AI on pwn problems?
 
-This is a collection of writeups and solutions put together with AI assistance — working through binary exploitation challenges, understanding the bugs, and building working exploits step by step.
-
-Topics covered so far: stack overflows, heap exploitation, ROP chains, integer bugs, and misc logic flaws.
+This blog is my attempt to document and test that — the pipelines I build, the gaps AI leaves behind, and what it takes to bridge them. Fair warning: a lot of this blog is AI-written too. The blog is part of the experiment. :)
 
 - **GitHub:** [peterlim11123-lab](https://github.com/peterlim11123-lab)
-- **Email:** cddc12346@gmail.com
