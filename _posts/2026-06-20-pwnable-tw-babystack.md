@@ -1,6 +1,6 @@
 ---
 title: "pwnable.tw — BabyStack (Pwn)"
-date: 2026-06-20 18:00:00 +0800
+date: 2026-06-20 09:00:00 +0800
 categories: [CTF, Pwn]
 tags: [pwnable-tw, strncmp, prefix-oracle, stale-stack, strcpy, libc-leak, one-gadget, pie]
 mermaid: true
