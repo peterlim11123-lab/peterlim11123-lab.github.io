@@ -43,7 +43,15 @@ tags: [ctfname, tag1, tag2]    # lowercase, hyphenated
 ## Summary
 ## Vulnerability / Bug
 ## Exploit Strategy (or numbered steps)
+## AI Lessons Learnt   ← include if AI_Lessons_Learnt.md exists in the challenge folder
 ## Fix / Mitigations
+```
+
+If `AI_Lessons_Learnt.md` is present in the challenge folder, add an `## AI Lessons Learnt` section before the mitigations table. Render each lesson as a Chirpy `tip` callout:
+
+```markdown
+> Lesson text here.
+{: .prompt-tip }
 ```
 
 ---
@@ -53,7 +61,7 @@ tags: [ctfname, tag1, tag2]    # lowercase, hyphenated
 - boroCTF posts written: coming-together, dinner, mania, next-challenge (2026-06-13)
 - anti-slop posts written: anchorpoint, paper-lantern (2026-06-15)
 - biterra posts written: barbie-core (2026-06-20)
-- pwnable-tw posts written: babystack (2026-06-20)
+- pwnable-tw posts written: babystack (2026-06-20), secretgarden (2026-06-21)
 - Avatar: `peterlim.png` (added to about page)
 
 ---
