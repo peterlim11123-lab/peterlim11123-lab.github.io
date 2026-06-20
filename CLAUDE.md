@@ -83,8 +83,7 @@ tags: [ctfname, tag1, tag2]    # lowercase, hyphenated
 
 ## 5. Examples
 
-**Canonical post (structure):** `_posts/2026-06-13-boroctf-dinner.md`  
-**Canonical post (diagrams):** `_posts/2026-06-20-pwnable-tw-babystack.md`
+**Canonical post:** `_posts/2026-06-20-pwnable-tw-babystack.md`
 
 - Lead with bold metadata block before first `##`
 - Use fenced code blocks for C, Python, assembly, shell
