@@ -125,7 +125,7 @@ sequenceDiagram
     participant A as Attacker
     participant B as babystack
 
-    Note over A,B: known_prefix = b""; repeat for bytes 0..15
+    Note over A,B: known_prefix = b"", repeat for bytes 0..15
 
     loop candidate = 0x01 to 0xff
         A->>B: login(known_prefix + [candidate] + NUL)
