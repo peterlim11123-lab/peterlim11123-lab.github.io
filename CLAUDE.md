@@ -112,11 +112,20 @@ Source files for a challenge live at `CTF/<ctfname>/<challengename>/`. Read solv
 
 ## 7. Workflow — After Writing a Post
 
-1. **Clean up big files** — binaries (`.so`, patched ELFs), Ghidra projects, `.gdb_history` are excluded by `.gitignore`. No action needed if `.gitignore` is up to date; verify with `git status` before staging.
-2. **Stage selectively** — add the new `_posts/` file, any new `CTF/` text files (scripts, notes, decompiled output), and `.gitignore` if updated. Never `git add -A` in this repo.
-3. **Commit and push** — use a concise commit message describing what challenge was added.
+1. **Validate Mermaid diagrams** — this site uses Mermaid 10.8.0. Parse or render every `mermaid` fence with that exact version before committing. In sequence diagrams, avoid semicolons in message, note, loop, and branch text because 10.8 treats them as statement separators. A diagram is not valid merely because the Markdown fence renders as code.
+2. **Build the site** — run `bundle exec jekyll build`. Resolve all build errors before committing. If Bundler is unavailable, report that the build was not run; do not claim full validation.
+3. **Check the diff** — run `git diff --check` and inspect `git diff -- <changed-files>` for whitespace errors and unintended edits.
+4. **Clean up big files** — binaries (`.so`, patched ELFs), Ghidra projects, `.gdb_history` are excluded by `.gitignore`. No action needed if `.gitignore` is up to date; verify with `git status` before staging.
+5. **Stage selectively** — add the new `_posts/` file, any new `CTF/` text files (scripts, notes, decompiled output), and `.gitignore` if updated. Never `git add -A` in this repo.
+6. **Commit and push** — use a concise commit message describing what challenge was added.
 
 ```bash
+# Validation
+bundle exec jekyll build
+git diff --check
+git diff -- <changed-files>
+
+# Publish
 git add _posts/YYYY-MM-DD-ctfname-chall.md CTF/... .gitignore
 git commit -m "Add <ctfname> <chall> writeup"
 git push
