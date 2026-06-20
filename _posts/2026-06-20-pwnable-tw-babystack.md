@@ -109,10 +109,10 @@ Offsets below are relative to the start of the 64-byte copy destination.
 
 ```mermaid
 graph LR
-    P1["🔑 Phase 1\nPrefix oracle\nRecover 16-byte cookie\n≤ 4080 attempts"]
-    P2["📡 Phase 2\nStale-stack strcpy\nLeak 6-byte libc ptr\nCompute libc base"]
-    P3["💣 Phase 3\nRestore exact cookie\nOverwrite saved RIP\none-gadget"]
-    X["🐚 Exit while logged in\nmemcmp passes → ret\none-gadget → shell"]
+    P1["Phase 1\nPrefix oracle\nRecover 16-byte cookie\nup to 4080 attempts"]
+    P2["Phase 2\nStale-stack strcpy\nLeak 6-byte libc ptr\nCompute libc base"]
+    P3["Phase 3\nRestore exact cookie\nOverwrite saved RIP\none-gadget"]
+    X["Exit while logged in\nmemcmp passes, ret\none-gadget, shell"]
     P1 --> P2 --> P3 --> X
 ```
 
@@ -128,17 +128,17 @@ sequenceDiagram
     Note over A,B: known_prefix = b""; repeat for bytes 0..15
 
     loop candidate = 0x01 to 0xff
-        A->>B: login(known_prefix + [candidate] + \x00)
-        alt strncmp == 0 — correct prefix
-            B-->>A: "Login Success !"
-            Note over A: append candidate; break
+        A->>B: login(known_prefix + [candidate] + NUL)
+        alt strncmp == 0, correct prefix
+            B-->>A: Login Success !
+            Note over A: append candidate, break
         else wrong byte
-            B-->>A: "Failed !"
+            B-->>A: Failed !
         end
     end
-    A->>B: logout()  (option 1 while logged in = logout)
+    A->>B: logout()
 
-    Note over A,B: 16 iterations → full 16-byte cookie recovered
+    Note over A,B: 16 iterations = full 16-byte cookie recovered
 ```
 
 Menu option 1 toggles: it attempts login when logged out, and logs out when logged in. Each successful byte guess requires an explicit logout before testing the next position.
