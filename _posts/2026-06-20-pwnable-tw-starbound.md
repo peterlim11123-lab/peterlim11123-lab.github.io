@@ -1,6 +1,6 @@
 ---
 title: "pwnable.tw — Starbound (Pwn)"
-date: 2026-06-20 14:00:00 +0800
+date: 2026-06-20 13:30:00 +0800
 categories: [CTF, Pwn]
 tags: [pwnable-tw, oob-index, function-pointer, stack-pivot, rop, open-read-write, bss]
 mermaid: true
