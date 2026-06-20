@@ -224,6 +224,11 @@ Why `realloc + 0x14` rather than writing the one-gadget directly into `__malloc_
 | `ONE_GADGET_OFFSET` | `0xEF6C4` | `execve("/bin/sh")` gadget in supplied libc |
 | `REALLOC_HOOK_CHECK` | `0x14` | Offset into realloc that reads `__realloc_hook` |
 
+## AI Lessons Learnt
+
+> Use GPT 5.4 to write the first draft — they can work so much faster, and their quality is decent. If it fails, then use GPT 5.5.
+{: .prompt-tip }
+
 ## Fix / Mitigations
 
 | Mitigation | Would it help? |
