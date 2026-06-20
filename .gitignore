@@ -25,3 +25,16 @@ package-lock.json
 # Misc
 _sass/vendors
 assets/js/dist
+
+# CTF challenge binaries and large blobs
+CTF/**/*.so
+CTF/**/*.so.*
+CTF/**/ld-*.so*
+CTF/**/*_patched
+CTF/**/babystack
+CTF/**/*.gbf
+CTF/**/*.prp
+CTF/**/*.dat
+CTF/**/*.bak
+CTF/**/*_ghidra/
+CTF/**/.gdb_history

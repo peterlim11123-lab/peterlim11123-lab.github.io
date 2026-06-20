@@ -53,22 +53,48 @@ tags: [ctfname, tag1, tag2]    # lowercase, hyphenated
 - boroCTF posts written: coming-together, dinner, mania, next-challenge (2026-06-13)
 - anti-slop posts written: anchorpoint, paper-lantern (2026-06-15)
 - biterra posts written: barbie-core (2026-06-20)
+- pwnable-tw posts written: babystack (2026-06-20)
 - Avatar: `peterlim.png` (added to about page)
 
 ---
 
-## 4. Examples
+## 4. Presentation Style
 
-**Canonical post:** `_posts/2026-06-13-boroctf-dinner.md`
+**Diagrams are mandatory when applicable.** Chirpy ships Mermaid.js — enable per post with `mermaid: true` in front matter.
+
+| Situation | Diagram type |
+|---|---|
+| Exploit phases / overall flow | Mermaid `graph LR` flowchart |
+| Protocol / oracle interaction (attacker ↔ binary) | Mermaid `sequenceDiagram` |
+| Memory layout / stack frame | HTML `<table>` with colored rows (`.bs-tbl` pattern) |
+| What gets corrupted / overwritten | Animated HTML cells (`@keyframes` with `animation-delay`) |
+| ROP chain or gadget sequence | Mermaid `graph LR` |
+
+**Animation rules:**
+- Use CSS `@keyframes` + `animation-delay` on individual `<div>` or `<td>` cells to show memory being written progressively.
+- Color convention: green = in-bounds / safe, yellow = stale, orange = libc/address bytes, red = corrupted/overflow.
+- All colors use `rgba()` so they work in both light and dark Chirpy themes.
+- Embed `<style>` blocks directly in the markdown file (Jekyll passes raw HTML through).
+- No JavaScript required; no external dependencies beyond Mermaid (already bundled).
+
+**Canonical post with diagrams:** `_posts/2026-06-20-pwnable-tw-babystack.md`
+
+---
+
+## 5. Examples
+
+**Canonical post (structure):** `_posts/2026-06-13-boroctf-dinner.md`  
+**Canonical post (diagrams):** `_posts/2026-06-20-pwnable-tw-babystack.md`
 
 - Lead with bold metadata block before first `##`
 - Use fenced code blocks for C, Python, assembly, shell
+- Add diagrams at each phase of the exploit walkthrough — do not skip this
 - Mitigations table at the end when relevant
 - No trailing summaries or recaps
 
 ---
 
-## 5. Tools
+## 6. Tools
 
 ```bash
 # Preview site locally
@@ -85,7 +111,21 @@ Source files for a challenge live at `CTF/<ctfname>/<challengename>/`. Read solv
 
 ---
 
-## 6. Guardrails
+## 7. Workflow — After Writing a Post
+
+1. **Clean up big files** — binaries (`.so`, patched ELFs), Ghidra projects, `.gdb_history` are excluded by `.gitignore`. No action needed if `.gitignore` is up to date; verify with `git status` before staging.
+2. **Stage selectively** — add the new `_posts/` file, any new `CTF/` text files (scripts, notes, decompiled output), and `.gitignore` if updated. Never `git add -A` in this repo.
+3. **Commit and push** — use a concise commit message describing what challenge was added.
+
+```bash
+git add _posts/YYYY-MM-DD-ctfname-chall.md CTF/... .gitignore
+git commit -m "Add <ctfname> <chall> writeup"
+git push
+```
+
+---
+
+## 8. Guardrails
 
 - Never publish challenge binaries or flag values that are not already public
 - Do not create posts without reading the actual solver/notes in `CTF/`
