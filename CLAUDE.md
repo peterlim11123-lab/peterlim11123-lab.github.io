@@ -52,6 +52,7 @@ tags: [ctfname, tag1, tag2]    # lowercase, hyphenated
 
 - boroCTF posts written: coming-together, dinner, mania, next-challenge (2026-06-13)
 - anti-slop posts written: anchorpoint, paper-lantern (2026-06-15)
+- biterra posts written: barbie-core (2026-06-20)
 - Avatar: `peterlim.png` (added to about page)
 
 ---
