@@ -50,6 +50,8 @@ The global slot pointer is never cleared, and the name pointer inside the object
 
 ## Exploit Strategy
 
+**Phase 1 & 2: Leak & Fastbin Setup**
+
 ```mermaid
 graph LR
     A["raise 0x100 chunk\n(flower 0)"] --> B["guard chunk\n(flower 1)"]
@@ -59,7 +61,13 @@ graph LR
     E --> F["compute libc base"]
     F --> G["raise two 0x60 chunks\n(flowers 2 and 3)"]
     G --> H["remove 2, 3, 2\nA→B→A fastbin cycle"]
-    H --> I["raise → write fake fd\n= __malloc_hook - 0x23"]
+```
+
+**Phase 3 & 4: Hook Poisoning & Exploitation**
+
+```mermaid
+graph LR
+    H["A→B→A fastbin\ncycle ready"] --> I["raise → write fake fd\n= __malloc_hook - 0x23"]
     I --> J["drain fastbin\n(3 allocations)"]
     J --> K["4th alloc lands on\n__malloc_hook - 0x13"]
     K --> L["write one_gadget → __realloc_hook\nrealloc+0x14 → __malloc_hook"]
