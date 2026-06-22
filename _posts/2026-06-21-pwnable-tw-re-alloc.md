@@ -50,13 +50,25 @@ glibc 2.29 tcache has no **safe-linking** (that arrived in 2.32) and weak double
 
 The overall flow has five phases.
 
+**Phase 1: Tcache Poisoning**
+
 ```mermaid
 graph LR
     A[Seed 0x30 tcache<br/>with atoll@GOT] --> B[Seed 0x50 tcache<br/>with atoll@GOT]
-    B --> C[Drain 0x30 bin:<br/>atoll@GOT → printf@PLT]
-    C --> D[Leak libc via<br/>%23$p format string]
-    D --> E[Drain 0x50 bin:<br/>atoll@GOT → system]
-    E --> F[send /bin/sh →<br/>system shell]
+```
+
+**Phase 2: Leak Libc**
+
+```mermaid
+graph LR
+    C[Drain 0x30 bin<br/>atoll@GOT → printf@PLT] --> D[Leak libc via<br/>%23$p format string]
+```
+
+**Phase 3: Achieve RCE**
+
+```mermaid
+graph LR
+    E[Drain 0x50 bin<br/>atoll@GOT → system] --> F[send /bin/sh<br/>to system shell]
 ```
 
 ### Phase 1 — Seed the 0x30 tcache bin with `atoll@GOT`
@@ -157,20 +169,20 @@ sequenceDiagram
     participant B as re-alloc binary
     participant T as tcache allocator
     A->>B: allocate(0, 0x28, "A")
-    B->>T: realloc(NULL, 0x28) -> chunk0
+    B->>T: realloc(NULL, 0x28) → chunk0
     A->>B: reallocate(0, 0)
-    B->>T: realloc(chunk0, 0) -> NULL (frees chunk0, heap[0] stale)
+    B->>T: realloc(chunk0, 0) → NULL frees chunk0
     A->>B: reallocate(0, 0x38, p64(atoll@GOT))
-    B->>T: realloc(stale, 0x38) -> chunk0' [fd = atoll@GOT]
+    B->>T: realloc(stale, 0x38) → chunk0'
     Note over T: 0x30 bin poisoned with atoll@GOT
     A->>B: allocate(0, 0x28, p64(printf@PLT))
-    B->>T: pop 0x30 bin -> atoll@GOT; write printf@PLT
+    B->>T: pop 0x30 bin write printf@PLT
     Note over B: atoll@GOT now points to printf
-    A->>B: Index: %23$p  (triggers printf)
-    B->>A: 0x7f...xxxx (libc return addr)
-    A->>B: allocate via %c/%72c; Data: p64(system)
+    A->>B: Index: %23$p triggers printf
+    B->>A: 0x7f...xxxx libc return addr
+    A->>B: allocate via format strings
     Note over B: atoll@GOT now points to system
-    A->>B: Index: /bin/sh\x00
+    A->>B: Index: /bin/sh
     B->>A: shell
 ```
 
