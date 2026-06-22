@@ -50,7 +50,7 @@ The global slot pointer is never cleared, and the name pointer inside the object
 
 ## Exploit Strategy
 
-**Phase 1 & 2: Leak & Fastbin Setup**
+**Phase 1: Leak from Unsorted Bin**
 
 ```mermaid
 graph LR
@@ -58,21 +58,36 @@ graph LR
     B --> C["remove(0) + clean()\nchunk into unsorted bin"]
     C --> D["raise 0x100 with b'C'\npartial overwrite"]
     D --> E["visit → %s leak\nrecover main_arena+88"]
-    E --> F["compute libc base"]
-    F --> G["raise two 0x60 chunks\n(flowers 2 and 3)"]
-    G --> H["remove 2, 3, 2\nA→B→A fastbin cycle"]
 ```
 
-**Phase 3 & 4: Hook Poisoning & Exploitation**
+**Phase 2: Create A→B→A Fastbin Cycle**
 
 ```mermaid
 graph LR
-    H["A→B→A fastbin\ncycle ready"] --> I["raise → write fake fd\n= __malloc_hook - 0x23"]
-    I --> J["drain fastbin\n(3 allocations)"]
-    J --> K["4th alloc lands on\n__malloc_hook - 0x13"]
-    K --> L["write one_gadget → __realloc_hook\nrealloc+0x14 → __malloc_hook"]
-    L --> M["menu option 1\nmalloc() fires hook chain"]
-    M --> N["shell → cat /flag.txt"]
+    E["libc base\ncomputed"] --> F["raise two 0x60 chunks\n(flowers 2 and 3)"]
+    F --> G["remove(2)\nfree A"]
+    G --> H["remove(3)\nfree B → list: B→A"]
+    H --> I["remove(2)\nfree A again → A→B→A"]
+```
+
+**Phase 3: Poison Fastbin & Trigger Hooks**
+
+```mermaid
+graph LR
+    I["A→B→A cycle\nready"] --> J["raise → poison fd\n= __malloc_hook - 0x23"]
+    J --> K["drain cycle\n(3 allocations)"]
+    K --> L["4th alloc lands on\n__malloc_hook - 0x13"]
+    L --> M["write one_gadget +\nrealloc trampoline"]
+```
+
+**Phase 4: Execute & Get Shell**
+
+```mermaid
+graph LR
+    M["hooks poisoned\nwith gadget"] --> N["menu option 1\nmalloc() fires chain"]
+    N --> O["realloc+0x14 →\none_gadget"]
+    O --> P["execve check\nsatisfied"]
+    P --> Q["shell → cat /flag.txt"]
 ```
 
 ### Phase 1 — Leak libc from the unsorted bin
