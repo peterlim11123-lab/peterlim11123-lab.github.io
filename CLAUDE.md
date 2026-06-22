@@ -33,6 +33,8 @@ tags: [ctfname, tag1, tag2]    # lowercase, hyphenated
 ---
 ```
 
+**IMPORTANT:** Always use a date **1 day earlier than today** to ensure proper timezone handling. Example: if today is 2026-06-22, use `date: 2026-06-21 HH:MM:SS +0800`.
+
 **Post body structure:**
 
 ```
