@@ -89,6 +89,13 @@ If `AI_Lessons_Learnt.md` is present in the challenge folder, add an `## AI Less
 
 **Canonical post with diagrams:** `_posts/2026-06-20-pwnable-tw-babystack.md`
 
+**Mermaid rules:**
+- When the Mermaid diagram has more than 5 stages, split into multiple phases
+- Each phase should have maximum 5 phases so that the boxes are visible
+- **In sequence diagrams, NEVER use semicolons in message text.** Mermaid 10.8.0 treats semicolons as statement terminators, breaking the diagram parser. Example:
+  - ❌ BROKEN: `B->>T: pop bin -> addr; write value`
+  - ✅ WORKS: `B->>T: pop bin and write value` or split into two messages with `Note over`
+
 ---
 
 ## 5. Examples
