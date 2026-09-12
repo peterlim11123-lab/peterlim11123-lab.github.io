@@ -64,6 +64,7 @@ If `AI_Lessons_Learnt.md` is present in the challenge folder, add an `## AI Less
 - anti-slop posts written: anchorpoint, paper-lantern (2026-06-15)
 - biterra posts written: barbie-core (2026-06-20)
 - pwnable-tw posts written: babystack (2026-06-20), secretgarden (2026-06-21)
+- k17-ctf-2027 posts written: notjson (2026-09-11)
 - Avatar: `peterlim.png` (added to about page)
 
 ---
