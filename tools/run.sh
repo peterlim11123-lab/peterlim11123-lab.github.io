@@ -2,6 +2,8 @@
 #
 # Run jekyll serve and then launch the site
 
+ulimit -S -c 0 2>/dev/null || true
+
 prod=false
 command="bundle exec jekyll s -l"
 host="127.0.0.1"

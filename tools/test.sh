@@ -7,6 +7,7 @@
 # Usage: See help information
 
 set -eu
+ulimit -S -c 0 2>/dev/null || true
 
 SITE_DIR="_site"
 
